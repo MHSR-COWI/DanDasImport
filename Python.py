@@ -3,6 +3,29 @@ import pandas as pd
 from tkinter import Tk, filedialog
 import os
 
+import subprocess
+import sys
+
+def install_and_import(package):
+    try:
+        __import__(package)
+        print(f"'{package}' er allerede installeret.")
+    except ImportError:
+        print(f"'{package}' er ikke installeret. Installerer nu...")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+        print(f"'{package}' er nu installeret.")
+    finally:
+        globals()[package] = __import__(package)
+
+# Tjek og installer pakker
+install_and_import('pandas')
+install_and_import('openpyxl')
+
+# Nu kan du bruge pandas og openpyxl uden problemer
+import pandas as pd
+
+
+
 # Vælg Access-database
 root = Tk()
 root.withdraw()
